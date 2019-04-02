@@ -1,0 +1,38 @@
+net self /Common/internal-no-float {
+    address 10.1.20.241/24
+    allow-service all
+    traffic-group /Common/traffic-group-local-only
+    vlan /Common/internal
+}
+net self /Common/10.244.245.241/16 {
+    address 10.244.245.241/16
+    traffic-group /Common/traffic-group-local-only
+    vlan /Common/flannel_vxlan
+}
+net self /Common/internal-float {
+    address 10.1.20.240/24
+    allow-service all
+    traffic-group /Common/traffic-group-1
+    vlan /Common/internal
+}
+net self /Common/10.244.245.240/16 {
+    address 10.244.245.240/16
+    traffic-group /Common/traffic-group-1
+    vlan /Common/flannel_vxlan
+}
+net vlan /Common/internal {
+    interfaces {
+        1.2 { }
+    }
+}
+net tunnels tunnel /Common/flannel_vxlan {
+    key 1
+    local-address 10.1.20.241
+    profile /Common/fl-vxlan
+}
+net tunnels vxlan /Common/fl-vxlan {
+    app-service none
+    flooding-type none
+    port 8472
+}
+auth partition kubernetes { }
