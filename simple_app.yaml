@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleapp
+  namespace: default
+  labels:
+    app: simpleapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: simpleapp
+  template:
+    metadata:
+      labels:
+        app: simpleapp
+    spec:
+      containers:
+      - name: simpleapp
+        image: chen23/f5-demo-app:latest
+        ports:
+        - containerPort: 8080
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: simpleapp-service
+  namespace: default
+spec:
+  selector:
+    app: simpleapp
+  ports:
+  - protocol: TCP
+    port: 80
+
+---
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: simpleapp-vs
+  namespace: default
+  labels:
+    f5type: virtual-server
+data:
+  schema: "f5schemadb://bigip-virtual-server_v0.1.7.json"
+  data: |
+    {
+      "virtualServer": {
+        "frontend": {
+          "balance": "round-robin",
+          "mode": "http",
+          "partition": "kubernetes",
+          "virtualAddress": {
+            "bindAddr": "10.1.10.11",
+            "port": 443
+          },
+          "sslProfile": {
+            "f5ProfileName": "/Common/clientssl"
+          }
+        },
+        "backend": {
+          "serviceName": "simpleapp-service",
+          "servicePort": 80
+        }
+      }
+    }
