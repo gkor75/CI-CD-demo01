@@ -19,7 +19,7 @@ spec:
       - name: simpleapp
         image: chen23/f5-demo-app:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 80
 
 ---
 
