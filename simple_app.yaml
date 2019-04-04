@@ -63,7 +63,17 @@ data:
         },
         "backend": {
           "serviceName": "simpleapp-service",
-          "servicePort": 80
+          "servicePort": 80,
+          "healthMonitors":
+            [
+              {
+                "protocol": "http",
+                "interval": 3,
+                "timeout": 10,
+                "send": "GET / HTTP/1.1\r\nHost: 10.1.10.11",
+                "recv": "Request Headers"
+              }
+            ]
         }
       }
     }
