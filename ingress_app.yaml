@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingressapp1
+  namespace: default
+  labels:
+    app: ingressapp1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingressapp1
+  template:
+    metadata:
+      labels:
+        app: ingressapp1
+    spec:
+      containers:
+      - name: ingressapp1
+        image: chen23/f5-demo-app:latest
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ingressapp1-service
+  namespace: default
+spec:
+  selector:
+    app: ingressapp1
+  ports:
+  - protocol: TCP
+    port: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingressapp2
+  namespace: default
+  labels:
+    app: ingressapp2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ingressapp2
+  template:
+    metadata:
+      labels:
+        app: ingressapp2
+    spec:
+      containers:
+      - name: ingressapp2
+        image: f5devcentral/f5-demo-app
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ingressapp2-service
+  namespace: default
+spec:
+  selector:
+    app: ingressapp2
+  ports:
+  - protocol: TCP
+    port: 80
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingressapp
+  namespace: default
+  annotations:
+  # See the k8s-bigip-ctlr documentation for information about
+  # all Ingress Annotations
+  # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest/#supported-ingress-annotations
+    virtual-server.f5.com/ip: "10.1.10.12"
+    virtual-server.f5.com/partition: "kubernetes"
+    virtual-server.f5.com/balance: "least-connections-node"
+spec:
+  rules:
+  - host: app1.f5demo.com
+    http:
+      paths:
+      - paths:
+        backend:
+          serviceName: ingressapp1-service
+          servicePort: 80
+  - host: app2.f5demo.com
+    http:
+      paths:
+      - paths:
+        backend:
+          serviceName: ingressapp2-service
+          servicePort: 80
