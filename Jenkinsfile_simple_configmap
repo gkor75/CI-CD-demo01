@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage('DeployToProduction') {
+//            when {
+//                branch 'master'
+//            }
+            agent { 
+                node {
+                    customWorkspace '/CICDdemo'
+                    label 'master'
+                }
+            }
+            steps {
+                input 'Deploy to Production?'
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: 'kubeconfig',
+                    configs: 'simple_app.yaml',
+                    enableConfigSubstitution: true
+                    )
+            }
+        }
+    }
+}
