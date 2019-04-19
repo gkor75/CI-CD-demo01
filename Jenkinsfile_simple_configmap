@@ -5,7 +5,7 @@ pipeline {
 //            when {
 //                branch 'master'
 //            }
-            agent { 
+//            agent { 
 //                node {
 //                    customWorkspace '/CICDdemo'
 //                    label 'master'
