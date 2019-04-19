@@ -1,7 +1,7 @@
 #!/bin/bash
 IMAGE_NAME=jenkinscicd
 JENKINS_HOME=$HOME/jenkins_home
-docker ps |grep -q $IMAGE_NAME
+docker ps -a |grep -q $IMAGE_NAME
 OUT=$?
 if [ $OUT -eq 0 ];then
 	echo "stopping $IMAGE_NAME..."
