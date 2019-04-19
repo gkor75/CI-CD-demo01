@@ -6,11 +6,11 @@ pipeline {
 //                branch 'master'
 //            }
             agent { 
-                node {
-                    customWorkspace '/CICDdemo'
-                    label 'master'
-                }
-            }
+//                node {
+//                    customWorkspace '/CICDdemo'
+//                    label 'master'
+//                }
+//            }
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
