@@ -11,6 +11,7 @@ pipeline {
     }
     environment {
         IPaddr = "${params.VS_IP_addr}"
+        AppName = 'simpleapp01'
     }
     stages {
         stage('Compilation') {

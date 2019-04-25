@@ -1,22 +1,22 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: simpleapp
+  name: ${AppName}
   namespace: default
   labels:
-    app: simpleapp
+    app: ${AppName}
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: simpleapp
+      app: ${AppName}
   template:
     metadata:
       labels:
-        app: simpleapp
+        app: ${AppName}
     spec:
       containers:
-      - name: simpleapp
+      - name: ${AppName}
         image: chen23/f5-demo-app:latest
         ports:
         - containerPort: 80
@@ -26,11 +26,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: simpleapp-service
+  name: ${AppName}-service
   namespace: default
 spec:
   selector:
-    app: simpleapp
+    app: ${AppName}
   ports:
   - protocol: TCP
     port: 80
