@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ${AppName}
+  namespace: default
+  labels:
+    app: ${AppName}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ${AppName}
+  template:
+    metadata:
+      labels:
+        app: ${AppName}
+    spec:
+      containers:
+      - name: ${AppName}
+        image: chen23/f5-demo-app:latest
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: ${AppName}-service
+  namespace: default
+  labels:
+    cis.f5.com/as3-tenant: as3
+    cis.f5.com/as3-app: ${AppName}
+    cis.f5.com/as3-pool: webpool
+spec:
+  selector:
+    app: ${AppName}
+  ports:
+  - protocol: TCP
+    port: 80

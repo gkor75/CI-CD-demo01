@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        node {
+            customWorkspace '/CICDdemo'
+            label 'master'
+        }
+    }
+    parameters { 
+        string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)') 
+        string (name: 'VS_IP_addr', defaultValue: '10.1.10.12', description: 'IP address exposed on F5')
+    }
+    environment {
+        IPaddr = "${params.VS_IP_addr}"
+        AppName = 'simpleapp02'
+    }
+    stages {
+        stage('Compilation') {
+            steps {echo 'code compilation steps goes here'}
+        }
+        stage('Building docker immage') {
+            steps {echo 'Docker Image building steps goes here'}
+        }
+        stage('Testing') {
+            steps {echo 'Testing related steps goes here'}
+        }
+        stage('Kubernetes Deployment') {
+            steps {
+                input 'Deploy to Production Kubernetes Cluster?'
+                milestone(1)
+                kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'as3_app.yaml',
+                    enableConfigSubstitution: true
+                    )
+
+            }
+        }
+        stage('Exposing services via https') {
+            steps {
+                input "Expose services via https at ${params.VS_IP_addr}?"
+                milestone(2)
+                kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'ConfigMaps/ConfigMap_ASM_predefined.yaml',
+                    enableConfigSubstitution: true
+                )                
+            }           
+        }
+    }
+}
