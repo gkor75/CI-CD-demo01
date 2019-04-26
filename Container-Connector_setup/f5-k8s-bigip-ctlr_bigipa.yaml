@@ -43,7 +43,8 @@ spec:
             "--bigip-url=10.1.20.241",
             "--bigip-partition=kubernetes",
             "--pool-member-type=cluster",
-            "--flannel-name=/Common/flannel_vxlan"
+            "--flannel-name=/Common/flannel_vxlan",
+            "--insecure=true"
             ]
       imagePullSecrets:
         # Secret that gives access to a private docker registry
