@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+    parameters {
+        string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
+    }
+    environment {
+        AppName = 'app4ansible'
+    }
+    stages {
+        stage('Deleting Kubernetes') {
+            steps {
+                withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
+                    sh "kubectl delete configmap ${env.AppName}-vs"
+                    sh "kubectl delete service ${env.AppName}-service"
+                    sh "kubectl delete deployment ${env.AppName}"
+                }
+            }
+        }
+    }
+}
