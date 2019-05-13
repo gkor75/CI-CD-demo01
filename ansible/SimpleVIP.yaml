@@ -1,6 +1,8 @@
+---
 - name: Create VIP for Kubernetes
   hosts: boarder_bigips
   connection: local
+  gather_facts: False
 
   vars:
     provider:
@@ -10,16 +12,6 @@
       validate_certs: no
       server_port: 443
 
-  tasks:
-    - name: Create VIP
-      bigip_virtual_server:
-        provider: "{{ provider }}"
-        partition: "/kubernetes"
-        name: ansible/vip-1
-        destination: 10.1.10.14
-        port: 80
-        snat: Automap
-        pool: /kubernetes/cfgmap_default_app4ansible-vs_app4ansible-service
-        profiles:
-          - http
-      delegate_to: localhost
+  roles:
+    - SimpleVIP
+...

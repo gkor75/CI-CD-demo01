@@ -1,0 +1,3 @@
+---
+- include: bigip_virtual_server/manage_vip.yml
+...

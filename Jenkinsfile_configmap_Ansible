@@ -32,7 +32,6 @@ pipeline {
                     configs: 'simple_app.yaml',
                     enableConfigSubstitution: true
                     )
-
             }
         }
         stage('Setting up a BigIP pool') {
@@ -51,7 +50,11 @@ pipeline {
                 dir ("ansible") {
                     ansiblePlaybook (
                         playbook: "SimpleVIP.yaml",
-                        inventory: "inventory/hosts.yaml"
+                        inventory: "inventory/hosts.yaml",
+                        extraVars: [
+                            state: "present"
+                        ],
+                        colorized: true
                     )
                 }
             }
