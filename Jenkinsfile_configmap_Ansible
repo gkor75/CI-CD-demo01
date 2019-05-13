@@ -5,8 +5,8 @@ pipeline {
             label 'master'
         }
     }
-    parameters { 
-        string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)') 
+    parameters {
+        string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)')
         string (name: 'VS_IP_addr', defaultValue: '10.1.10.11', description: 'IP address exposed on F5')
     }
     environment {
@@ -35,15 +35,26 @@ pipeline {
 
             }
         }
-        stage('Setting UP a BigIP pool') {
+        stage('Setting up a BigIP pool') {
             steps {
                 milestone(2)
                 kubernetesDeploy(
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
                     configs: 'ConfigMaps/ConfigMap_no_VS.yaml',
                     enableConfigSubstitution: true
-                )                
-            }           
+                )
+            }
+        }
+        stage('Setting up advanced BigIP configuration via Ansible') {
+            steps {
+                milestone(3)
+                dir ("ansible") {
+                    ansiblePlaybook (
+                        playbook: "SimpleVIP.yaml",
+                        inventory: "inventory/hosts.yaml"
+                    )
+                }
+            }
         }
     }
 }

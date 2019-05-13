@@ -1,12 +1,14 @@
 FROM jenkins/jenkins:latest
-LABEL version="0.1"
+LABEL version="0.2"
 
 USER root
 RUN apt-get update && apt-get install -y apt-transport-https
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update
-RUN apt-get install -y kubectl ansible
+RUN apt-get install -y kubectl python python-pip
+RUN apt-get remove ansible
+RUN pip install ansible
 
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt

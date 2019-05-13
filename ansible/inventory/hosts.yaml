@@ -1,0 +1,8 @@
+all:
+  children:
+    boarder_bigips:
+      hosts:
+        bigipa:
+          ansible_host: 10.1.20.241
+          ansible_user: admin
+          ansible_password: admin
