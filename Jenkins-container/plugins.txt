@@ -77,4 +77,4 @@ kubernetes
 azure-commons
 kubernetes-cd
 kubernetes-cli
-ansilbe
+ansible
