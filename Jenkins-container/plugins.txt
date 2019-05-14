@@ -78,3 +78,4 @@ azure-commons
 kubernetes-cd
 kubernetes-cli
 ansible
+ansicolor

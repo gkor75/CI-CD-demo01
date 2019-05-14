@@ -48,6 +48,7 @@ pipeline {
             steps {
                 milestone(3)
                 dir ("ansible") {
+                ansiColor('xterm') {
                     ansiblePlaybook (
                         playbook: "SimpleVIP.yaml",
                         inventory: "inventory/hosts.yaml",
@@ -56,6 +57,7 @@ pipeline {
                         ],
                         colorized: true
                     )
+                }
                 }
             }
         }
