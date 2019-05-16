@@ -16,4 +16,6 @@ if [ $OUT -eq 0 ];then
 fi
 docker build -t $IMAGE_NAME:latest .
 
-docker run -d -v jenkins_home:$JENKINS_HOME -p 8080:8080 -p 50000:50000 --name $IMAGE_NAME $IMAGE_NAME:latest
+docker run -d -v jenkins_home:$JENKINS_HOME \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -p 8080:8080 -p 50000:50000 --name $IMAGE_NAME $IMAGE_NAME:latest

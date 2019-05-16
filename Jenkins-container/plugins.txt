@@ -79,3 +79,4 @@ kubernetes-cd
 kubernetes-cli
 ansible
 ansicolor
+docker-plugin
