@@ -29,9 +29,9 @@ pipeline {
                 dir ("all-in-one-hackazon") {
                     milestone(2)
                     script {
-                        def my_image = docker.build("${params.DOCKERHUB_ID}/hackazon:${env.BUILD_ID}")
+                        def my_image = docker.build("${params.DOCKERHUB_ID}/hackazon:1.0}")
                         docker.withRegistry('https://registry.hub.docker.com', "$params.DOCKERHUB_CREDENTIALS") {
-//                        my_image.push("${env.BUILD_NUMBER}")
+                        my_image.push("1.0")
                         my_image.push("latest")
                         }
                     }
@@ -48,8 +48,12 @@ pipeline {
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
                     configs: 'hackazon_app.yaml',
                     enableConfigSubstitution: true
-                    )
-
+                )
+                kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'ConfigMaps/ConfigMap_no_VS.yaml',
+                    enableConfigSubstitution: true
+                )
             }
         }        
     }

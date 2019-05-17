@@ -6,7 +6,7 @@ metadata:
   labels:
     app: ${AppName}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: ${AppName}
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: ${AppName}
-        image: f5devcentral/f5-demo-app:latest
+        image: gkor75/${AppName}:1.0
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent
@@ -29,10 +29,6 @@ apiVersion: v1
 metadata:
   name: ${AppName}-service
   namespace: default
-  labels:
-    cis.f5.com/as3-tenant: as3
-    cis.f5.com/as3-app: ${AppName}
-    cis.f5.com/as3-pool: webpool
 spec:
   selector:
     app: ${AppName}

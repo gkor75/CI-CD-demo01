@@ -1,0 +1,2 @@
+Jenkins-container/plugins_*
+*.retry

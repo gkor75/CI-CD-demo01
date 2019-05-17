@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: ${AppName}
-        image: chen23/f5-demo-app:latest
+        image: f5devcentral/f5-demo-app:latest
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent
