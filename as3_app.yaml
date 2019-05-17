@@ -20,6 +20,7 @@ spec:
         image: chen23/f5-demo-app:latest
         ports:
         - containerPort: 80
+        imagePullPolicy: IfNotPresent
 
 ---
 

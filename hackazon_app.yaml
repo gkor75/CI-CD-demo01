@@ -17,9 +17,10 @@ spec:
     spec:
       containers:
       - name: ${AppName}
-        image: gkor75/hackazone:latest
+        image: gkor75/hackazon:1.0
         ports:
         - containerPort: 80
+        imagePullPolicy: IfNotPresent
 
 ---
 
