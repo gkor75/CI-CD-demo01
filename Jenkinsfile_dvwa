@@ -14,7 +14,7 @@ pipeline {
     }
     environment {
         IPaddr = "${params.VS_IP_addr}"
-        AppName = 'hackazon'
+        AppName = 'dvwa'
     }
     stages {
         stage('Compilation') {
@@ -26,10 +26,10 @@ pipeline {
             }
             steps {
                 echo 'Docker Image building'
-                dir ("all-in-one-hackazon") {
+                dir ("docker-vulnerable-dvwa") {
                     milestone(2)
                     script {
-                        def my_image = docker.build("${params.DOCKERHUB_ID}/hackazon:1.0}")
+                        def my_image = docker.build("${params.DOCKERHUB_ID}/${env.AppName}:1.0")
                         docker.withRegistry('https://registry.hub.docker.com', "$params.DOCKERHUB_CREDENTIALS") {
                         my_image.push("1.0")
                         my_image.push("latest")
@@ -42,11 +42,11 @@ pipeline {
         }
         stage('Kubernetes Deployment') {
             steps {
-                input 'Deploy to Production Kubernetes Cluster?'
+//                input 'Deploy to Production Kubernetes Cluster?'
                 milestone(3)
                 kubernetesDeploy(
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
-                    configs: 'hackazon_app.yaml',
+                    configs: 'port_80_app.yaml',
                     enableConfigSubstitution: true
                 )
                 kubernetesDeploy(

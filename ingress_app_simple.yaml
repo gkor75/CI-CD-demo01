@@ -17,9 +17,10 @@ spec:
     spec:
       containers:
       - name: ingressapp1
-        image: f5devcentral/f5-demo-app:latest
+        image: f5devcentral/f5-hello-world:latest
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 
 ---
 
@@ -33,7 +34,7 @@ spec:
     app: ingressapp1
   ports:
   - protocol: TCP
-    port: 80
+    port: 8080
 
 ---
 
@@ -56,7 +57,10 @@ spec:
     spec:
       containers:
       - name: ingressapp2
-        image: f5devcentral/f5-demo-app
+        image: gkor75/dvwa:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
 
 ---
 
@@ -73,6 +77,7 @@ spec:
     port: 80
 
 ---
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -85,6 +90,21 @@ metadata:
     virtual-server.f5.com/ip: "10.1.10.12"
     virtual-server.f5.com/partition: "kubernetes"
     virtual-server.f5.com/balance: "least-connections-node"
+    virtual-server.f5.com/health: |
+      [
+        {
+          "path":     "app1.f5demo.com/",
+          "send":     "GET / HTTP/1.1\\r\\nHost: app1.f5demo.com\\r\\n\\r\\n",
+          "interval": 5,
+          "timeout":  16
+        }, {
+          "path":     "app2.f5demo.com/",
+          "send":     "GET / HTTP/1.1\\r\\nHost: app2.f5demo.com\\r\\n\\r\\n",
+          "interval": 3,
+          "timeout":  10
+        }
+      ]
+
 spec:
   rules:
   - host: app1.f5demo.com
@@ -93,7 +113,7 @@ spec:
       - paths:
         backend:
           serviceName: ingressapp1-service
-          servicePort: 80
+          servicePort: 8080
   - host: app2.f5demo.com
     http:
       paths:
