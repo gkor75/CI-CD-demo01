@@ -31,8 +31,9 @@ pipeline {
             agent any
             steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
-          					sh "kubectl delete service ${params.APP_NAME}-service"
-				           	sh "kubectl delete deployment ${params.APP_NAME}"
+                    sh "kubectl delete configmap ${params.APP_NAME}-vs"
+                    sh "kubectl delete service ${params.APP_NAME}-service"
+                    sh "kubectl delete deployment ${params.APP_NAME}"
                 }
             }
         }

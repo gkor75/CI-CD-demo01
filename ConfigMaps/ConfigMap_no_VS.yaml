@@ -13,10 +13,7 @@ data:
         "frontend": {
           "balance": "round-robin",
           "mode": "http",
-          "partition": "kubernetes",
-          "sslProfile": {
-            "f5ProfileName": "/Common/clientssl"
-          }
+          "partition": "kubernetes"
         },
         "backend": {
           "serviceName": "${AppName}-service",
@@ -27,8 +24,7 @@ data:
                 "protocol": "http",
                 "interval": 3,
                 "timeout": 10,
-                "send": "GET / HTTP/1.1\r\nHost: 10.1.10.11",
-                "recv": "Request Headers"
+                "send": "GET / HTTP/1.1\r\nHost: 10.1.10.11"
               }
             ]
         }
