@@ -27,7 +27,15 @@ metadata:
 
 spec:
   tls:
-    - secretName: /Common/star.f5demo.com
+  - 
+    hosts:
+    - app1.f5demo.com
+    secretName: /Common/app1.f5demo.com
+  - 
+    hosts:
+    - app2.f5demo.com
+    secretName: /Common/app2.f5demo.com
+  - secretName: /Common/star.f5demo.com
   rules:
   - host: app1.f5demo.com
     http:
