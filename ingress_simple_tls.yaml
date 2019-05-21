@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: ingressapp
+  name: ingress-tls
   namespace: default
   annotations:
   # See the k8s-bigip-ctlr documentation for information about
