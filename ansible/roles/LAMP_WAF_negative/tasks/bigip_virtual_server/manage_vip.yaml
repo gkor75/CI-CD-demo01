@@ -1,0 +1,24 @@
+---
+- name: Manage VIP
+  bigip_virtual_server:
+    provider: "{{ provider }}"
+    partition: "{{ bigip_partition }}"
+    name: "{{ bigip_path }}vip-1"
+    destination: 10.1.10.14
+    port: 443
+    snat: Automap
+    pool: "{{ bigip_partition }}/cfgmap_default_app4ansible-vs_app4ansible-service"
+    profiles:
+      - "{{ bigip_partition }}/{{ bigip_path }}mid_security_http"
+      - name: /Common/tcp-lte
+        context: client-side
+      - name: /Common/f5-tcp-lan
+        context: server-side
+      - "{{ bigip_partition }}/{{ bigip_path }}detailed_local_analytics"
+      - /Common/oneconnect
+      - name: /Common/star.f5demo.com
+        context: client-side
+    default_persistence_profile: /Common/cookie
+    state: "{{ state }}"
+  delegate_to: localhost
+...

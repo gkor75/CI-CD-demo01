@@ -1,0 +1,11 @@
+---
+- name: Manage http profile
+  bigip_profile_http:
+    provider: "{{ provider }}"
+    partition: "{{ bigip_partition }}"
+    name: "{{ bigip_path }}mid_security_http"
+    proxy_type: reverse
+    insert_xforwarded_for: yes
+    state: "{{ state }}"
+  delegate_to: localhost
+...

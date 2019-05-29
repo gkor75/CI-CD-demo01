@@ -1,0 +1,19 @@
+---
+- name: Complete configuration for VIP with negative ASM Policy
+  hosts: boarder_bigips
+  connection: local
+  gather_facts: False
+
+  vars:
+    provider:
+      server: "{{ ansible_host }}"
+      user: "{{ ansible_user }}"
+      password: "{{ ansible_password }}"
+      validate_certs: no
+      server_port: 443
+    bigip_partition: "/kubernetes"
+    bigip_path: "ansible/"
+
+  roles:
+    - LAMP_WAF_negative
+...
