@@ -2,9 +2,8 @@
 - name: Manage ASM Policy
   bigip_asm_policy_import:
     provider: "{{ provider }}"
-    partition: "{{ bigip_partition }}"
-    name: "{{ bigip_path }}Generic_Rapid_Policy_LAMP_with_blocking"
-#    source: ../../Generic_Rapid_Policy_LAMP_with_blocking.xml
+    partition: /Common
+    name: "{{ policy_name }}"
     source: roles/LAMP_WAF_negative/files/Generic_Rapid_Policy_LAMP_with_blocking.xml
   delegate_to: localhost
 ...

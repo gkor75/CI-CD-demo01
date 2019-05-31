@@ -1,28 +1,24 @@
 ---
-#############
-# Add objects
-#############
-- include: bigip_profile_http/manage_http_profile.yaml
+- name: Creating BigIP configuration
+  block:
+  - include: bigip_profile_http/manage_http_profile.yaml
+  - include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
+  - include: bigip_asm_policy_import/manage_bigip_asm_policy_import.yaml
+  - include: bigip_policy/manage_bigip_policy.yaml
+  - include: bigip_virtual_server/manage_vip.yaml
   when: state == "present"
 
-- include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
-  when: state == "present"
-
-- include: bigip_asm_policy_import/manage_bigip_asm_policy_import.yaml
-  when: state == "present"
-
-- include: bigip_virtual_server/manage_vip.yaml
-  when: state == "present"
-
-################
-# Remove objects
-################
-- include: bigip_profile_http/manage_http_profile.yaml
+- name: Deleting BigIP configuration
+  block:
+  - include: bigip_virtual_server/manage_vip.yaml
+  - include: bigip_policy/manage_bigip_policy.yaml
+  - include: bigip_profile_http/manage_http_profile.yaml
+  - include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
   when: state == "absent"
 
-- include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
-  when: state == "absent"
-
-- include: bigip_virtual_server/manage_vip.yaml
-  when: state == "absent"
+- name: Saving config
+  bigip_config:
+    provider: "{{ provider }}"
+    save: yes
+  delegate_to: localhost
 ...

@@ -1,0 +1,48 @@
+---
+- name: Create LTM Policies
+  block:
+    - name: Add LTM Draft Policy enabling WAF
+      bigip_policy:
+        provider: "{{ provider }}"
+        partition: /Common
+        name: "{{ policy_name }}"
+        strategy: first
+        state: draft
+      delegate_to: localhost
+
+    - name: Add LTM Policy default Rule
+      bigip_policy_rule:
+        provider: "{{ provider }}"
+        partition: "/Common"
+        policy: "{{ policy_name }}"
+        name: default
+        conditions:
+          - type: all_traffic
+        actions:
+          - type: enable
+            asm_policy: "{{ policy_name }}"
+        state: "{{ state }}"
+      delegate_to: localhost
+
+    - name: Plublish LTM Policy
+      bigip_policy:
+        provider: "{{ provider }}"
+        partition: /Common
+        name: "{{ policy_name }}"
+        strategy: first
+        state: present
+      delegate_to: localhost
+  when: state == "present"
+
+- name: Delete LTM Policy
+  block:
+    - name: Manage LTM Policy enabling WAF policy
+      bigip_policy:
+        provider: "{{ provider }}"
+        partition: /Common
+        name: "{{ policy_name }}"
+        strategy: first
+        state: absent
+      delegate_to: localhost
+  when: state == "absent"
+...
