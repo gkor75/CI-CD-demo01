@@ -2,7 +2,7 @@ pipeline {
     agent none
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
-        string (name: 'APP_NAME', defaultValue: 'app4ansible', description: 'App Name to be deleted')
+        string (name: 'APP_NAME', defaultValue: 'dvwa', description: 'App Name to be deleted')
     }
     stages {
         stage('Deleting Ansible configuration') {
@@ -16,10 +16,12 @@ pipeline {
                dir ("ansible") {
                ansiColor('xterm') {
                   ansiblePlaybook (
-                      playbook: "SimpleVIP.yaml",
+                      playbook: "LAMP_negative_sec.yaml",
                       inventory: "inventory/hosts.yaml",
                       extraVars: [
-                          state: "absent"
+                          state: "absent",
+                          VS_IP_addr: "${params.VS_IP_addr}",
+                          Kube_App_name: "${env.AppName}"
                       ],
                       colorized: true
                    )
