@@ -34,19 +34,53 @@ data:
               },
               "securityLogProfiles": [
                 {"bigip": "/Common/Log all requests"}
-              ]
+              ],
+              "profileHTTP": { "use": "http_prof_mid_security" },
+              "profileHTTPAcceleration": { "use": "my_caching" },
+              "profileHTTPCompression": { "use":"my_compression" }
             },
             "webpool": {
               "class": "Pool",
               "monitors": [
                 "http"
               ],
+              "reselectTries": 1,
               "members": [
                 {
                   "servicePort": 80,
                   "serverAddresses": []
                 }
               ]
+            },
+            "http_prof_mid_security": {
+              "class": "HTTP_Profile",
+              "proxyType": "reverse",
+              "allowedResponseHeaders": [
+                "content-type",
+                "set-cookie",
+                "location",
+                "date",
+                "expires",
+                "cache-control",
+                "pragma",
+                "vary",
+                "content-encoding",
+                "keep-alive",
+                "connection" 
+              ],
+              "fallbackRedirect": "https://www.f5.com",
+              "xForwardedFor": true
+            },
+            "my_caching": {
+              "class": "HTTP_Acceleration_Profile",
+              "parentProfile": { "bigip": "/Common/webacceleration" },
+              "maximumObjectSize": 200000,
+              "maximumEntries": 5000,
+              "maximumAge": 120
+            },
+            "my_compression": {
+              "class": "HTTP_Compress",
+              "minimumSize": 2000
             }
           }
         }
