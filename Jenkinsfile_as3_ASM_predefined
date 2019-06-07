@@ -7,11 +7,11 @@ pipeline {
     }
     parameters { 
         string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)') 
-        string (name: 'VS_IP_addr', defaultValue: '10.1.10.12', description: 'IP address exposed on F5')
+        string (name: 'VS_IP_addr', defaultValue: '10.1.10.15', description: 'IP address exposed on F5')
     }
     environment {
         IPaddr = "${params.VS_IP_addr}"
-        AppName = 'simpleapp02'
+        AppName = 'simpleapp05'
     }
     stages {
         stage('Compilation') {

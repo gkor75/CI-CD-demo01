@@ -22,9 +22,9 @@ data:
           "class": "Tenant",
           "${AppName}": {
             "class": "Application",
-            "template": "http",
+            "template": "https",
             "serviceMain": {
-              "class": "Service_HTTP",
+              "class": "Service_HTTPS",
               "virtualAddresses": [
                  "${IPaddr}"
               ],
@@ -37,7 +37,9 @@ data:
               ],
               "profileHTTP": { "use": "http_prof_mid_security" },
               "profileHTTPAcceleration": { "use": "my_caching" },
-              "profileHTTPCompression": { "use":"my_compression" }
+              "profileHTTPCompression": { "use":"my_compression" },
+              "redirect80": true,
+              "serverTLS": { "bigip": "/Common/star.f5demo.com" }
             },
             "webpool": {
               "class": "Pool",
