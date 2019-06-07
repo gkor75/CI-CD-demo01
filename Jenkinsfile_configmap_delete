@@ -2,13 +2,13 @@ pipeline {
     agent any
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
-        string (name: 'APP_NAME', defaultValue: 'simpleapp01', description: 'App Name to be deleted')
+        string (name: 'APP_NAME', defaultValue: 'simpleapp05', description: 'App Name to be deleted')
     }
     stages {
         stage('Deleting Kubernetes') {
             steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
-                    sh "kubectl delete configmap ${params.APP_NAME}-vs"
+                    sh "kubectl delete configmap ${params.APP_NAME}-as3"
                     sh "kubectl delete service ${params.APP_NAME}-service"
                     sh "kubectl delete deployment ${params.APP_NAME}"
                 }
