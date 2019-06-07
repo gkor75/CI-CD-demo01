@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    parameters {
+        string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
+    }
+    stages {
+        stage('Deleting Kubernetes') {
+            steps {
+                withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
+                    sh "kubectl delete ingress ingress-tls"
+                    sh "kubectl delete service ingressapp1-service"
+                    sh "kubectl delete service ingressapp2-service"
+                    sh "kubectl delete deployment ingressapp1"
+                    sh "kubectl delete deployment ingressapp1"
+                }
+            }
+        }
+    }
+}
