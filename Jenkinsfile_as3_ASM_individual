@@ -41,7 +41,7 @@ pipeline {
                 milestone(2)
                 kubernetesDeploy(
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
-                    configs: 'ConfigMaps/ConfigMap_AS3_ASM_predefined.yaml',
+                    configs: 'ConfigMaps/ConfigMap_AS3_ASM_individual.yaml',
                     enableConfigSubstitution: true
                 )                
             }           
