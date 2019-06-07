@@ -11,7 +11,7 @@ pipeline {
                     sh "kubectl delete service ingressapp1-service"
                     sh "kubectl delete service ingressapp2-service"
                     sh "kubectl delete deployment ingressapp1"
-                    sh "kubectl delete deployment ingressapp1"
+                    sh "kubectl delete deployment ingressapp2"
                 }
             }
         }
