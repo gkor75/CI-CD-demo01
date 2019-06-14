@@ -16,6 +16,9 @@ RUN pip install ansible
 RUN groupadd -g 995 docker
 RUN usermod -aG docker jenkins
 
+RUN mkdir /CICDdemo
+RUN chown jenkins:jenkins /CICDdemo
+
 USER jenkins
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt

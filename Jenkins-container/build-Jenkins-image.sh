@@ -1,6 +1,5 @@
 #!/bin/bash
 IMAGE_NAME=jenkinscicd
-JENKINS_HOME=$HOME/jenkins_home
 docker ps -a |grep -q $IMAGE_NAME
 OUT=$?
 if [ $OUT -eq 0 ];then
@@ -16,6 +15,6 @@ if [ $OUT -eq 0 ];then
 fi
 docker build -t $IMAGE_NAME:latest .
 
-docker run -d -v jenkins_home:$JENKINS_HOME \
+docker run -d -v jenkins_home:/var/jenkins_home \
               -v /var/run/docker.sock:/var/run/docker.sock \
               -p 8080:8080 -p 50000:50000 --name $IMAGE_NAME $IMAGE_NAME:latest
