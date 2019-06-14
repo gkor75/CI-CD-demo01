@@ -1,4 +1,4 @@
-# Welcome to CI / CD demo for kubernetes and F5 BigIP integration.
+# Welcome to CI / CD demo with Kubernetes, Jenkins, Ansible and F5 BigIP.
 ## \<\<\<draft\>\>\>
 It's assumed that you have a basic understanding of docker.
 
