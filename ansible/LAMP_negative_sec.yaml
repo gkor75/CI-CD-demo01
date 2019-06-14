@@ -11,8 +11,7 @@
       password: "{{ ansible_password }}"
       validate_certs: no
       server_port: 443
-    bigip_partition: "/kubernetes"
-    bigip_path: "ansible/"
+    bigip_partition: "/Common"
 
   roles:
     - LAMP_WAF_negative

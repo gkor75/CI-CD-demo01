@@ -1,0 +1,14 @@
+---
+- name: Manage iRule selecting the pool
+  bigip_irule:
+    provider: "{{ provider }}"
+    partition: "{{ bigip_partition }}"
+    name: "{{profile_name}}_iRule"
+    module: "ltm"
+    content: |
+        when CLIENT_ACCEPTED {
+            pool {{ pool_name }}
+        }
+    state: "{{ state }}"
+  delegate_to: localhost
+...

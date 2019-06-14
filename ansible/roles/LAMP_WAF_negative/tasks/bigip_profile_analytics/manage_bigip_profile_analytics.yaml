@@ -3,7 +3,7 @@
   bigip_profile_analytics:
     provider: "{{ provider }}"
     partition: "{{ bigip_partition }}"
-    name: "{{ bigip_path }}{{profile_name}}_analytics"
+    name: "{{profile_name}}_analytics"
     collect_geo: yes
     collect_ip: yes
     collect_max_tps_and_throughput: yes
