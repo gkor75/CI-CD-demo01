@@ -16,8 +16,9 @@ Sample network diagram with recommended IP addresses.
 You can minimize your configuration efford if you leave the IP addressing as above.
 
 The environment has been testsed with the following software versions:
-- BigiP 14.1.
-- 
+- BigiP 14.1
+- Jenkins 2.184 (jenkins/jenkins:lts docker image as of 2019-07-11)
+- Kubernetes v1.11.2
 
 It's recommended to relay on official [Kubernetes documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/), however a brief Kubernetes installation notes are included in [Container-Connector_setup](Container-Connector_setup/). 
 
