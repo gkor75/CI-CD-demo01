@@ -3,23 +3,24 @@
   bigip_virtual_server:
     provider: "{{ provider }}"
     partition: "{{ bigip_partition }}"
-    name: "{{ bigip_path }}{{ vip_name }}"
+    name: "{{ vip_name }}"
     type: standard
     destination: "{{ dest_addr }}"
     port: "443"
     snat: Automap
-    pool: "{{ pool_name }}"
     profiles:
-      - "{{ bigip_partition }}/{{ bigip_path }}{{ profile_name }}_http"
+      - "{{ bigip_partition }}/{{ profile_name }}_http"
       - name: /Common/tcp-lte
         context: client-side
       - name: /Common/f5-tcp-lan
         context: server-side
-      - "{{ bigip_partition }}/{{ bigip_path }}{{ profile_name }}_analytics"
+      - "{{ bigip_partition }}/{{ profile_name }}_analytics"
       - /Common/oneconnect
       - name: /Common/star.f5demo.com
         context: client-side
       - websecurity
+    irules:
+      - "{{ bigip_partition }}/{{profile_name}}_iRule"
     default_persistence_profile: /Common/cookie
     security_log_profiles: "/Common/Log all requests"
     policies:

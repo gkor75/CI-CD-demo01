@@ -5,12 +5,14 @@
   - include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
   - include: bigip_asm_policy_import/manage_bigip_asm_policy_import.yaml
   - include: bigip_policy/manage_bigip_policy.yaml
+  - include: bigip_irule/manage_bigip_irule.yaml
   - include: bigip_virtual_server/manage_vip.yaml
   when: state == "present"
 
 - name: Deleting BigIP configuration
   block:
   - include: bigip_virtual_server/manage_vip.yaml
+  - include: bigip_irule/manage_bigip_irule.yaml
   - include: bigip_policy/manage_bigip_policy.yaml
   - include: bigip_profile_http/manage_http_profile.yaml
   - include: bigip_profile_analytics/manage_bigip_profile_analytics.yaml
