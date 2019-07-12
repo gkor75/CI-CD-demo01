@@ -1,5 +1,5 @@
 FROM jenkins/jenkins:lts
-LABEL version="0.2"
+LABEL version="0.3"
 
 USER root
 RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
