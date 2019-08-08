@@ -1,3 +1,4 @@
-Jenkins-container/plugins_*
+Jenkins-container/plugins_as*
+Jenkins-container/plugins_to*
 *.retry
 *.swp
