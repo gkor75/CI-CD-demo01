@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ingressapp1
-  namespace: default
+  namespace: ingress-demo
   labels:
     app: ingressapp1
 spec:
@@ -21,6 +21,9 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
+      securityContext:
+        runAsUser: 0
+ 
 
 ---
 
@@ -28,7 +31,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ingressapp1-service
-  namespace: default
+  namespace: ingress-demo
 spec:
   selector:
     app: ingressapp1
@@ -42,7 +45,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ingressapp2
-  namespace: default
+  namespace: ingress-demo
   labels:
     app: ingressapp2
 spec:
@@ -61,14 +64,15 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
-
+      securityContext:
+        runAsUser: 0   
 ---
 
 kind: Service
 apiVersion: v1
 metadata:
   name: ingressapp2-service
-  namespace: default
+  namespace: ingress-demo
 spec:
   selector:
     app: ingressapp2
