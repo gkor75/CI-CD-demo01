@@ -1,10 +1,10 @@
 pipeline {
-//    agent {
-//        node {
+    agent {
+        node {
 //            customWorkspace '/var/jenkins_home/CI-CD-demo01'
-//            label 'master'
-//        }
-//    }
+            label 'master'
+        }
+    }
     parameters {
         booleanParam (name: 'REBUILD', defaultValue: false, description: 'Should image be rebuilt?')
         string (name: 'DOCKERHUB_ID', defaultValue: 'gkor75', description: 'your Docker Hub ID?')
