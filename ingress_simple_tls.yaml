@@ -13,13 +13,13 @@ metadata:
     virtual-server.f5.com/health: |
       [
         {
-          "path":     "app1.f5demo.com/",
-          "send":     "GET / HTTP/1.1\\r\\nHost: app1.f5demo.com\\r\\n\\r\\n",
+          "path":     "app1.osf5demo.com/",
+          "send":     "GET / HTTP/1.1\\r\\nHost: app1.osf5demo.com\\r\\n\\r\\n",
           "interval": 5,
           "timeout":  16
         }, {
-          "path":     "app2.f5demo.com/",
-          "send":     "GET / HTTP/1.1\\r\\nHost: app2.f5demo.com\\r\\n\\r\\n",
+          "path":     "app2.osf5demo.com/",
+          "send":     "GET / HTTP/1.1\\r\\nHost: app2.osf5demo.com\\r\\n\\r\\n",
           "interval": 3,
           "timeout":  10
         }
@@ -29,22 +29,22 @@ spec:
   tls:
   - 
     hosts:
-    - app1.f5demo.com
-    secretName: /Common/app1.f5demo.com
+    - app1.osf5demo.com
+    secretName: /Common/app1.osf5demo.com
   - 
     hosts:
-    - app2.f5demo.com
-    secretName: /Common/app2.f5demo.com
-  - secretName: /Common/star.f5demo.com
+    - app2.osf5demo.com
+    secretName: /Common/app2.osf5demo.com
+  - secretName: /Common/star.osf5demo.com
   rules:
-  - host: app1.f5demo.com
+  - host: app1.osf5demo.com
     http:
       paths:
       - paths:
         backend:
           serviceName: ingressapp1-service
           servicePort: 8080
-  - host: app2.f5demo.com
+  - host: app2.osf5demo.com
     http:
       paths:
       - paths:
