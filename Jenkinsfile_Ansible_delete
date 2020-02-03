@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            label 'master'
+        }
+    }
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
         string (name: 'APP_NAME', defaultValue: 'dvwa', description: 'App Name to be deleted')
