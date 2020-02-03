@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            customWorkspace '/CICDdemo'
+            customWorkspace '/var/jenkins_home/CI-CD-demo01'
             label 'master'
         }
     }
@@ -28,12 +28,12 @@ pipeline {
                 echo 'Docker Image building'
                 dir ("docker-vulnerable-dvwa") {
                     milestone(2)
-                    script {
-                        def my_image = docker.build("${params.DOCKERHUB_ID}/${env.AppName}:1.0")
-                        docker.withRegistry('https://registry.hub.docker.com', "$params.DOCKERHUB_CREDENTIALS") {
-                        my_image.push("1.0")
-                        my_image.push("latest")
-                        }
+                   // script {
+                   //     def my_image = docker.build("${params.DOCKERHUB_ID}/${env.AppName}:1.0")
+                   //     docker.withRegistry('https://registry.hub.docker.com', "$params.DOCKERHUB_CREDENTIALS") {
+                   //     my_image.push("1.0")
+                   //     my_image.push("latest")
+                   //     }
                     }
                 }
 
