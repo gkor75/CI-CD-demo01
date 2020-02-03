@@ -1,5 +1,10 @@
 pipeline {
-    agent none
+    agent {
+         node {
+            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            label 'master'
+        }
+    }
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
         string (name: 'APP_NAME', defaultValue: 'dvwa', description: 'App Name to be deleted')
@@ -21,7 +26,8 @@ pipeline {
                       extraVars: [
                           state: "absent",
                           VS_IP_addr: "${params.VS_IP_addr}",
-                          Kube_App_name: "${env.AppName}"
+                          Kube_App_name: "${env.AppName}",
+                          Namespace: 'ingress-ansible'
                       ],
                       colorized: true
                    )
