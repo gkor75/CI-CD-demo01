@@ -75,7 +75,8 @@ pipeline {
                         extraVars: [
                             state: "present",
                             VS_IP_addr: "${params.VS_IP_addr}",
-                            Kube_App_name: "${env.AppName}"
+                            Kube_App_name: "${env.AppName}",
+                            Namespace: "${Namespace}"
                         ],
                         colorized: true
                     )
