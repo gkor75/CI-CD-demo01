@@ -7,11 +7,11 @@ pipeline {
         stage('Deleting Kubernetes') {
             steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
-                    sh "kubectl delete ingress ingress-tls"
-                    sh "kubectl delete service ingressapp1-service"
-                    sh "kubectl delete service ingressapp2-service"
-                    sh "kubectl delete deployment ingressapp1"
-                    sh "kubectl delete deployment ingressapp2"
+                    sh "kubectl -n ingress-demo delete ingress ingress-tls"
+                    sh "kubectl -n ingress-demo delete service ingressapp1-service"
+                    sh "kubectl -n ingress-demo delete service ingressapp2-service"
+                    sh "kubectl -n ingress-demo delete deployment ingressapp1"
+                    sh "kubectl -n ingress-demo delete deployment ingressapp2"
                 }
             }
         }
