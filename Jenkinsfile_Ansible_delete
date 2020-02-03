@@ -1,19 +1,14 @@
 pipeline {
-    agent {
-         node {
-            customWorkspace '/var/jenkins_home/CI-CD-demo02'
-            label 'master'
-        }
-    }
+    agent any
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
         string (name: 'APP_NAME', defaultValue: 'dvwa', description: 'App Name to be deleted')
     }
     stages {
         stage('Deleting Ansible configuration') {
-            agent{
+            agent {
                 node {
-                    customWorkspace '/CICDdemo'
+                    customWorkspace '/var/jenkins_home/CI-CD-demo02'
                     label 'master'
                     }
             }
@@ -36,7 +31,12 @@ pipeline {
             }
         }
         stage('Deleting Kubernetes') {
-            agent any
+            agent  {
+                node {
+                    customWorkspace '/var/jenkins_home/CI-CD-demo02'
+                    label 'master'
+                    }
+            }
             steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
                     sh "kubectl delete configmap ${params.APP_NAME}-vs"
