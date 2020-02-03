@@ -35,7 +35,7 @@ pipeline {
                    //     my_image.push("1.0")
                    //     my_image.push("latest")
                    //     }
-                    }
+                   // }
                 }
 
             }
