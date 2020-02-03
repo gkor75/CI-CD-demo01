@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${AppName}
-  namespace: default
+  namespace: ${Namespace}
   labels:
     app: ${AppName}
 spec:
@@ -28,7 +28,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ${AppName}-service
-  namespace: default
+  namespace: ${Namespace}
 spec:
   selector:
     app: ${AppName}
