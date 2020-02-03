@@ -1,6 +1,6 @@
 prefix: app1_
 profile_name: "{{ prefix }}LAMP_mid_security"
 policy_name: "{{ prefix }}Generic_Rapid_Policy_LAMP_with_blocking"
-pool_name: "/kubernetes/cfgmap_default_{{ Kube_App_name }}-vs_{{ Kube_App_name }}-service"
+pool_name: "/kubernetes/cfgmap_{{ Namespace }}_{{ Kube_App_name }}-vs_{{ Kube_App_name }}-service"
 vip_name: "{{ profile_name }}"
 dest_addr: "{{ VS_IP_addr }}"
