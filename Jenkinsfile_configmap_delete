@@ -1,16 +1,32 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            label 'master'
+        }
+    }
     parameters {
+        string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)')
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
         string (name: 'APP_NAME', defaultValue: 'simpleapp05', description: 'App Name to be deleted')
+        string (name: 'NAMESPACE', defaultValue: 'ingress-as3-asm-individual', description:'Namespace that should be affected')
+    }
+    environment {
+        AppName = "${params.APP_NAME}"
+//        Namespace = "${params.NAMESPACE}"
     }
     stages {
         stage('Deleting Kubernetes') {
+            kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'ConfigMaps/ConfigMap_AS3_delete.yaml',
+                    enableConfigSubstitution: true
+                )
             steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
-                    sh "kubectl delete configmap ${params.APP_NAME}-as3"
-                    sh "kubectl delete service ${params.APP_NAME}-service"
-                    sh "kubectl delete deployment ${params.APP_NAME}"
+                    sh "kubectl delete -n ${params.NAMESPACE} configmap ${params.APP_NAME}-as3"
+                    sh "kubectl delete -n ${params.NAMESPACE} service ${params.APP_NAME}-service"
+                    sh "kubectl delete -n ${params.NAMESPACE} deployment ${params.APP_NAME}"
                 }
             }
         }

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ${AppName}
-  namespace: default
+  namespace: ${Namespace}
   labels:
     app: ${AppName}
 spec:
@@ -21,6 +21,8 @@ spec:
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent
+      securityContext:
+        runAsUser: 0
 
 ---
 
@@ -28,7 +30,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: ${AppName}-service
-  namespace: default
+  namespace: ${Namespace}
   labels:
     cis.f5.com/as3-tenant: as3
     cis.f5.com/as3-app: ${AppName}
