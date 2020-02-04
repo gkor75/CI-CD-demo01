@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            customWorkspace '/CICDdemo'
+            label 'master'
+        }
+    }
     parameters {
         string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)') 
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
