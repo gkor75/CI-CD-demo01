@@ -10,6 +10,9 @@ pipeline {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
         string (name: 'APP_NAME', defaultValue: 'simpleapp05', description: 'App Name to be deleted')
     }
+    environment {
+        AppName = "${params.APP_NAME}"
+    }
     stages {
         stage('Deleting Kubernetes') {
             steps {
