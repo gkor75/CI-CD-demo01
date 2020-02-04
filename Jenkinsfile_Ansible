@@ -10,7 +10,7 @@ pipeline {
         booleanParam (name: 'REBUILD', defaultValue: false, description: 'Should image be rebuilt?')
         string (name: 'DOCKERHUB_ID', defaultValue: 'gkor75', description: 'your Docker Hub ID?')
         string (name: 'DOCKERHUB_CREDENTIALS', defaultValue: 'docker_hub_login', description: 'your Docker Hub credentials?')
-        string (name: 'VS_IP_addr', defaultValue: '10.1.10.14', description: 'IP address exposed on F5')
+        string (name: 'VS_IP_addr', defaultValue: '10.17.12.14', description: 'IP address exposed on F5')
     }
     environment {
         IPaddr = "${params.VS_IP_addr}"
