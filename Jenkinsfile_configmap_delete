@@ -17,12 +17,12 @@ pipeline {
     }
     stages {
         stage('Deleting Kubernetes') {
-            kubernetesDeploy(
+            steps {
+                kubernetesDeploy(
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
                     configs: 'ConfigMaps/ConfigMap_AS3_delete.yaml',
                     enableConfigSubstitution: true
                 )
-            steps {
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
                     sh "kubectl delete -n ${params.NAMESPACE} configmap ${params.APP_NAME}-as3"
                     sh "kubectl delete -n ${params.NAMESPACE} service ${params.APP_NAME}-service"
