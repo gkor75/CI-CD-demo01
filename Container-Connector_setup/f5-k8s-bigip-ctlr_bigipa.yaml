@@ -1,54 +1,52 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: k8s-bigip-ctlr-deployment
+  labels:
+    app: k8s-bigip-ctlr
+  name: k8s-bigip-ctlr
   namespace: kube-system
 spec:
-  # DO NOT INCREASE REPLICA COUNT
   replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-bigip-ctlr
   template:
     metadata:
-      name: k8s-bigip-ctlr
       labels:
         app: k8s-bigip-ctlr
+      name: k8s-bigip-ctlr
     spec:
-      # Name of the Service Account bound to a Cluster Role with the required
-      # permissions
-      serviceAccountName: bigip-ctlr
       containers:
-        - name: k8s-bigip-ctlr
-          image: "f5networks/k8s-bigip-ctlr"
-          env:
-            - name: BIGIP_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  # Replace with the name of the Secret containing your login
-                  # credentials
-                  name: bigip-login
-                  key: username
-            - name: BIGIP_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  # Replace with the name of the Secret containing your login
-                  # credentials
-                  name: bigip-login
-                  key: password
-          command: ["/app/bin/k8s-bigip-ctlr"]
-          args: [
-            # See the k8s-bigip-ctlr documentation for information about
-            # all config options
-            # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest
-            "--bigip-username=$(BIGIP_USERNAME)",
-            "--bigip-password=$(BIGIP_PASSWORD)",
-            "--bigip-url=10.1.20.241",
-            "--bigip-partition=kubernetes",
-            "--pool-member-type=cluster",
-            "--flannel-name=/Common/flannel_vxlan",
-            "--insecure=true"
-            ]
+      - args:
+        - --bigip-username=$(BIGIP_USERNAME)
+        - --bigip-password=$(BIGIP_PASSWORD)
+        - --bigip-url=10.17.20.191
+        - --insecure
+        - --bigip-partition=kubernetes
+        - --pool-member-type=cluster
+        - --openshift-sdn-name=/Common/openshift_vxlan
+        - --default-ingress-ip=10.17.12.11
+        - --default-client-ssl=/Common/star.apps.f5demo.com
+        - --default-server-ssl=/Common/openshift_default
+        - --manage-routes=true
+        - --route-label=bigipa
+        - --route-vserver-addr=10.17.12.24
+        command:
+        - /app/bin/k8s-bigip-ctlr
+        env:
+        - name: BIGIP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: bigip-login
+        - name: BIGIP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: bigip-login
+        image: f5networks/k8s-bigip-ctlr:1.11.1
+        name: k8s-bigip-ctlr
       imagePullSecrets:
-        # Secret that gives access to a private docker registry
-        - name: f5-docker-images
-        # Secret containing the BIG-IP system login credentials
-        - name: bigip-login
-
+      - name: bigip-login
+      serviceAccount: bigip-ctlr
+      serviceAccountName: bigip-ctlr
