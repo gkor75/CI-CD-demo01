@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routeapp1
+  namespace: route-demo
+  labels:
+    app: routeapp1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routeapp1
+  template:
+    metadata:
+      labels:
+        app: routeapp1
+    spec:
+      containers:
+      - name: routeapp1
+        image: f5devcentral/f5-hello-world:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+      securityContext:
+        runAsUser: 0
+ 
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: routeapp1-service
+  namespace: route-demo
+spec:
+  selector:
+    app: routeapp1
+  ports:
+  - protocol: TCP
+    port: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routeapp2
+  namespace: route-demo
+  labels:
+    app: routeapp2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: routeapp2
+  template:
+    metadata:
+      labels:
+        app: routeapp2
+    spec:
+      containers:
+      - name: routeapp2
+        image: gkor75/dvwa:1.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      securityContext:
+        runAsUser: 0   
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: routeapp2-service
+  namespace: route-demo
+spec:
+  selector:
+    app: routeapp2
+  ports:
+  - protocol: TCP
+    port: 80

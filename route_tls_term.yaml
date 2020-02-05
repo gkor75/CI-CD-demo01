@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  annotations:
+    virtual-server.f5.com/balance: least-connections-member
+  labels:
+    f5type: bigipa
+  name: routeapp-service
+  namespace: route-demo
+spec:
+  host: routeapp1-service-route-demo.apps.f5demo.com
+  to:
+    kind: Service
+    name: routeapp1-service
+    weight: 100
+  wildcardPolicy: None
