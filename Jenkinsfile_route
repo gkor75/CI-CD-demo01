@@ -10,7 +10,9 @@ pipeline {
         string (name: 'DOCKERHUB_ID', defaultValue: 'gkor75', description: 'your Docker Hub ID?')
         string (name: 'DOCKERHUB_CREDENTIALS', defaultValue: 'docker_hub_login', description: 'you Docker Hub credentials?')
         string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)')
-        // string (name: 'VS_IP_addr', defaultValue: '10.17.12.12', description: 'IP address exposed on F5')
+    }
+    environment {
+        OS_TOKEN = credentials('ROUTE_DEMO_TOKEN')
     }
     stages {
         stage('Compilation') {
@@ -48,13 +50,20 @@ pipeline {
         }
         stage('Exposing services via https') {
             steps {
-                input "Expose services via https at ${params.VS_IP_addr}?"
+//                input "Expose services via https?"
                 milestone(4)
-                kubernetesDeploy(
-                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
-                    configs: 'route_tls_term.yaml',
-                    enableConfigSubstitution: true
-                )
+                openshiftCreateResource (namespace: 'route-demo', 
+                    jsonyaml: readFile ('route_tls_term1.yaml'),
+                    apiURL: 'https://master1.f5demo.com:443',
+                    authToken: "${OS_TOKEN}",
+                    verbose: 'true'
+                    )
+                openshiftCreateResource (namespace: 'route-demo', 
+                    jsonyaml: readFile ('route_tls_term2.yaml'),
+                    apiURL: 'https://master1.f5demo.com:443',
+                    authToken: "${OS_TOKEN}",
+                    verbose: 'true'
+                    )
             }
         }
     }

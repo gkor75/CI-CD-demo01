@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Route
+metadata:
+  annotations:
+    virtual-server.f5.com/balance: least-connections-member
+  labels:
+    f5type: bigipa
+  name: routeapp1
+  namespace: route-demo
+spec:
+  host: app1.apps.f5demo.com
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: routeapp1-service
+    weight: 100
+  wildcardPolicy: None
