@@ -1,0 +1,61 @@
+pipeline {
+    agent {
+        node {
+            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            label 'master'
+        }
+    }
+    parameters {
+        booleanParam (name: 'REBUILD', defaultValue: false, description: 'Should image be rebuilt?')
+        string (name: 'DOCKERHUB_ID', defaultValue: 'gkor75', description: 'your Docker Hub ID?')
+        string (name: 'DOCKERHUB_CREDENTIALS', defaultValue: 'docker_hub_login', description: 'you Docker Hub credentials?')
+        string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)')
+        // string (name: 'VS_IP_addr', defaultValue: '10.17.12.12', description: 'IP address exposed on F5')
+    }
+    stages {
+        stage('Compilation') {
+            steps {echo 'code compilation steps goes here'}
+        }
+        stage('Building docker immage') {
+            when {
+                expression { return params.REBUILD }
+            }
+            steps {
+                echo 'Docker Image building'
+                dir ("docker-vulnerable-dvwa") {
+                    milestone(2)
+                //    script {
+                //        def my_image = docker.build("${params.DOCKERHUB_ID}/dvwa:1.0")
+                //        docker.withRegistry('https://registry.hub.docker.com', "$params.DOCKERHUB_CREDENTIALS") {
+                //        my_image.push("1.0")
+                //        my_image.push("latest")
+                //        }
+                //    }
+                }
+            }
+            
+        }
+        stage('Kubernetes Deployment') {
+            steps {
+//                input 'Deploy to Production Kubernetes Cluster?'
+                milestone(3)
+                kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'route_app.yaml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+        stage('Exposing services via https') {
+            steps {
+                input "Expose services via https at ${params.VS_IP_addr}?"
+                milestone(4)
+                kubernetesDeploy(
+                    kubeconfigId: "${params.KUBE_CONFIG_ID}",
+                    configs: 'route_tls_term.yaml',
+                    enableConfigSubstitution: true
+                )
+            }
+        }
+    }
+}

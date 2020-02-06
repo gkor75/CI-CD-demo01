@@ -1,0 +1,24 @@
+pipeline {
+    agent {
+        node {
+            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            label 'master'
+        }
+    }
+    parameters {
+        string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
+    }
+    stages {
+        stage('Deleting Kubernetes') {
+            steps {
+                withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
+                    sh "kubectl -n route-demo delete ingress ingress-tls"
+                    sh "kubectl -n route-demo delete service ingressapp1-service"
+                    sh "kubectl -n route-demo delete service ingressapp2-service"
+                    sh "kubectl -n route-demo delete deployment ingressapp1"
+                    sh "kubectl -n route-demo delete deployment ingressapp2"
+                }
+            }
+        }
+    }
+}
