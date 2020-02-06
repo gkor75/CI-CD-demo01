@@ -8,13 +8,22 @@ pipeline {
     parameters {
         string (name: 'KUBE_CONFIG_PLANE_TEXT', defaultValue: 'kubeconfig_secret_file', description: 'Select the preconfigured Kubernetes credentials in plane text')
     }
+        environment {
+        OS_TOKEN = credentials('ROUTE_DEMO_TOKEN')
+    }
     stages {
         stage('Deleting Kubernetes') {
             steps {
+                openshiftDeleteResourceByKey (
+                    types: 'route, route',
+                    keys: 'routeapp1, routeapp2',
+                    apiURL: 'https://master1.f5demo.com:443',
+                    authToken: "${OS_TOKEN}",
+                    namespace: 'route-demo'
+                    )
                 withKubeConfig ([ credentialsId: "${params.KUBE_CONFIG_PLANE_TEXT}" ]) {
-                    sh "kubectl -n route-demo delete ingress ingress-tls"
-                    sh "kubectl -n route-demo delete service ingressapp1-service"
-                    sh "kubectl -n route-demo delete service ingressapp2-service"
+                    sh "kubectl -n route-demo delete service routeapp1-service"
+                    sh "kubectl -n route-demo delete service routeapp1-service"
                     sh "kubectl -n route-demo delete deployment ingressapp1"
                     sh "kubectl -n route-demo delete deployment ingressapp2"
                 }

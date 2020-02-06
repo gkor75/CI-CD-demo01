@@ -28,3 +28,18 @@ cd Jenkins-container
 chmod +x build-Jenkins-image.sh
 ./build-Jenkins-image.sh
 ```
+## OpenShift preparation
+1. Create respective namespaces - look for `namespace` keywords in the yaml files. `oc create namespace <namespace>`
+2. For each namespace: `oc adm policy add-scc-to-user hostmount-anyuid -z default`. That's required to run a demo pods.
+
+
+##  OpenShift Route example
+1. Install OpenShift Pipeline Jenkins Plugin
+2. Get a token
+```
+oc project route-demo
+oc create serviceaccount robot
+oc policy add-role-to-user admin system:serviceaccount:route-demo:robot
+oc serviceaccounts get-token robot
+```
+3. Create a Secret text named 'ROUTE_DEMO_TOKEN'
