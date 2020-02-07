@@ -12,7 +12,7 @@ metadata:
           "timeout": 10
         }
       ]
-    # virtual-server.f5.com/clientssl: /Common/client.mysite.f5demo.com
+    virtual-server.f5.com/clientssl: /Common/app2.apps.f5demo.com
     virtual-server.f5.com/waf: /Common/app1_Generic_Rapid_Policy_LAMP_with_blocking
   labels:
     f5type: bigipa

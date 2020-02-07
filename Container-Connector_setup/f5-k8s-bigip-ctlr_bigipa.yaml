@@ -31,6 +31,7 @@ spec:
         - --manage-routes=true
         - --route-label=bigipa
         - --route-vserver-addr=10.17.12.24
+        - --agent=as3
         command:
         - /app/bin/k8s-bigip-ctlr
         env:
@@ -44,7 +45,7 @@ spec:
             secretKeyRef:
               key: password
               name: bigip-login
-        image: f5networks/k8s-bigip-ctlr:1.11.1
+        image: f5networks/k8s-bigip-ctlr:1.30.0
         name: k8s-bigip-ctlr
       imagePullSecrets:
       - name: bigip-login

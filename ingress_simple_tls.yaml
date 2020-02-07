@@ -8,7 +8,7 @@ metadata:
   # all Ingress Annotations
   # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest/#supported-ingress-annotations
     virtual-server.f5.com/ip: "${IPaddr}"
-    virtual-server.f5.com/partition: "kubernetes"
+    virtual-server.f5.com/partition: "kubernetes_AS3"
     virtual-server.f5.com/balance: "least-connections-node"
     virtual-server.f5.com/health: |
       [

@@ -3,6 +3,7 @@ kind: Route
 metadata:
   annotations:
     virtual-server.f5.com/balance: least-connections-member
+    virtual-server.f5.com/clientssl: /Common/app1.apps.f5demo.com
   labels:
     f5type: bigipa
   name: routeapp1

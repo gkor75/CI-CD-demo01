@@ -13,7 +13,7 @@ data:
         "frontend": {
           "balance": "round-robin",
           "mode": "http",
-          "partition": "kubernetes"
+          "partition": "kubernetes_AS3"
         },
         "backend": {
           "serviceName": "${AppName}-service",
