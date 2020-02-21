@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            customWorkspace '/var/jenkins_home/CI-CD-demo02'
+            customWorkspace '/var/jenkins_home/CI-CD-demo03'
             label 'master'
         }
     }
