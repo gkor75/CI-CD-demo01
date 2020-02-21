@@ -41,7 +41,7 @@ pipeline {
         stage('Kubernetes Deployment') {
             steps {
 //                input 'Deploy to Production Kubernetes Cluster?'
-                milestone(3)
+                milestone(11)
                 kubernetesDeploy(
                     kubeconfigId: "${params.KUBE_CONFIG_ID}",
                     configs: 'route_app.yaml',
@@ -52,7 +52,7 @@ pipeline {
         stage('Exposing services via https') {
             steps {
 //                input "Expose services via https?"
-                milestone(4)
+                milestone(12)
                 openshiftCreateResource (namespace: 'route-demo', 
                     jsonyaml: readFile ('route_tls_term1.yaml'),
                     apiURL: 'https://master1.f5demo.com:443',
