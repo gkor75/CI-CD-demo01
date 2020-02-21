@@ -10,6 +10,7 @@ pipeline {
         string (name: 'DOCKERHUB_ID', defaultValue: 'gkor75', description: 'your Docker Hub ID?')
         string (name: 'DOCKERHUB_CREDENTIALS', defaultValue: 'docker_hub_login', description: 'you Docker Hub credentials?')
         string (name: 'KUBE_CONFIG_ID', defaultValue: 'kubeconfig', description: 'Select the preconfigured Kubernetes credentials (Jenkins -> Credentials)')
+        string (name: 'OS_TOKEN', defaultValue: 'ROUTE_DEMO_TOKEN', description: 'OpenShift Token for creating routes')
     }
     environment {
         OS_TOKEN = credentials('ROUTE_DEMO_TOKEN')
