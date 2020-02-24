@@ -15,7 +15,7 @@ data:
                   "bigip": "/Common/Log all requests"
                 }
               ],
-              "serverTLS": { "bigip": "/Common/star.f5demo.com" }
+              "serverTLS": { "bigip": "/Common/star.apps.f5demo.com" }
             },
             "ose_vserver": {
               "securityLogProfiles": [
