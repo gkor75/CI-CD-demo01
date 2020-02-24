@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: f5-route-vs-override
+  namespace: default
+data:
+  template: |
+    {
+      "declaration": {
+        "kubernetes_AS3": {
+          "Shared": {
+            "https_ose_vserver": {
+              "securityLogProfiles": [
+                {
+                  "bigip": "/Common/Log all requests"
+                }
+              ],
+              "serverTLS": { "bigip": "/Common/star.f5demo.com" }
+            },
+            "ose_vserver": {
+              "securityLogProfiles": [
+                {
+                  "bigip": "/Common/Log all requests"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
