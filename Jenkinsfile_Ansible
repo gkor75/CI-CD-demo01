@@ -66,6 +66,7 @@ pipeline {
         }
         stage('Setting up advanced BigIP configuration via Ansible') {
             steps {
+                input 'Push advanced BigIP configuration?'
                 milestone(3)
                 dir ("ansible") {
                 ansiColor('xterm') {
